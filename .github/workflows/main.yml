@@ -1,0 +1,32 @@
+name: Daily SimCard Bot (11 AM Iran)
+
+on:
+  schedule:
+    # 07:30 UTC = 11:00 Iran Time
+    - cron: '30 7 * * *'
+  
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Robot
+        run: python bot.py
